@@ -32,6 +32,12 @@ import AddOrders from './admin-pannel/AddOrders';
 import ViewProduct from './admin-pannel/ViewProduct';
 import ViewUser from './admin-pannel/ViewUser';
 import ViewOrder from './admin-pannel/ViewOrder';
+import Bedding from './UI/Bedding';
+import Clothing from './UI/Clothing';
+import ClutchBag from './UI/ClutchBag';
+import MattressCovers from './UI/MattressCovers';
+import SofaCovers from './UI/SofaCovers';
+import WashingMachineCovers from './UI/WashingMachineCovers';
 
 const router = createBrowserRouter([
   // Public Routes
@@ -43,10 +49,16 @@ const router = createBrowserRouter([
   { path: '/winter', element: <WinterCollection /> },
   { path: '/gents', element: <Gents /> },
   { path: '/party', element: <PartyWear /> },
-  { path: '/homedecor', element: <HomeDecor /> },
+  { path: '/home-decor', element: <HomeDecor /> },
   { path: '/cart', element: <CartEmpty /> },
   { path: '/product/:id', element: <ProductPage /> },
   { path: '/userProfile', element: <UserProfile /> },
+  { path: '/bedding', element: <Bedding /> },
+  { path: '/clothing', element: <Clothing /> },
+  { path: '/clutch-bag', element: <ClutchBag /> },
+  { path: '/mattress-covers', element: <MattressCovers /> },
+  { path: '/sofa-covers', element: <SofaCovers /> },
+  { path: '/washing-machine-covers', element: <WashingMachineCovers /> },
 
   // Admin Routes
   { path: '/admin', element: <AdminProductPanel /> },
@@ -60,11 +72,11 @@ const router = createBrowserRouter([
   { path: '/addUser', element: <AddUser /> },
   { path: '/addUser/:id', element: <AddUser /> },
   { path: '/viewUser/:id', element: <ViewUser /> },
-  { path: '/addOrders/:id', element: <AddOrders /> }, // ✅ Added to support Edit Order
+  { path: '/addOrders/:id', element: <AddOrders /> },
   { path: '/viewProduct/:id', element: <ViewProduct /> },
-{ path: '/addOrder', element: <AddOrders /> },
-{ path: '/addOrder/:id', element: <AddOrders /> }, // Edit
-{ path: '/viewOrder/:id', element: <ViewOrder /> },
+  { path: '/addOrder', element: <AddOrders /> },
+  { path: '/addOrder/:id', element: <AddOrders /> }, // Edit
+  { path: '/viewOrder/:id', element: <ViewOrder /> },
 
   // 404 Catch-all
   { path: '*', element: <Error /> }

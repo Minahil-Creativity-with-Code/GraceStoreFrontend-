@@ -1,141 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import NavLine from "../components/NavLine";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const PartyWear = () => {
+  const [products, setProducts] = useState([]);
   const [sortOption, setSortOption] = useState('latest');
 
-  const products = [
-    {
-      id: 1,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 2,
-      name: 'Green Printed Suit',
-      tag: null,
-      discount: '29% Off',
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 3,
-      name: 'Floral Green Suit',
-      tag: null,
-      discount: '22% Off',
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 4,
-      name: 'Traditional Saree',
-      tag: null,
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 5,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 6,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 7,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 8,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 9,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 10,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 11,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 12,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 13,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 14,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 15,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
-    },
-    {
-      id: 16,
-      name: 'Navy Blue Dress',
-      tag: 'Trending',
-      discount: null,
-      image: '/P1.jpg',
-      outOfStock: true
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/products/search/category/PartyWear");
+        setProducts(res.data);
+
+      } catch (error) {
+        console.error("Failed to fetch Party Wear products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const sortedProducts = [...products].sort((a, b) => {
+    switch (sortOption) {
+      case 'price-low':
+        return (a.price || 0) - (b.price || 0);
+      case 'price-high':
+        return (b.price || 0) - (a.price || 0);
+      case 'latest':
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      case 'popularity':
+        return (b.sold || 0) - (a.sold || 0);
+      default:
+        return 0;
     }
-  ];
+  });
 
   return (
     <>
@@ -159,13 +59,18 @@ const PartyWear = () => {
         </div>
 
         <div className="product-grid">
-          {products.map((product) => (
-            <div className="product-card" key={product.id}>
+          {sortedProducts.map((product) => (
+            <div className="product-card" key={product._id}>
               <div className="product-img-container">
                 {product.tag && <span className="tag trending">{product.tag}</span>}
                 {product.discount && <span className="tag discount">{product.discount}</span>}
-                <img src={product.image} alt={product.name} />
-                {product.outOfStock && <div className="out-of-stock">OUT OF STOCK</div>}
+                <img
+                  src={`http://localhost:5000/images/${product.image}`}
+                  alt={product.name}
+                />
+                {product.stockQuantity === 0 && (
+                  <div className="out-of-stock">OUT OF STOCK</div>
+                )}
               </div>
               <h4>{product.name}</h4>
             </div>

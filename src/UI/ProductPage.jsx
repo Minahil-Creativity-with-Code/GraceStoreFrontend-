@@ -118,10 +118,11 @@ const ViewProduct = () => {
             <div className="product-description">
               <h3>{product.shortTitle || 'Product Description'}</h3>
               <ul className="features-list">
-                {product.description?.split('.').map((line, idx) =>
+                {product.description?.split('\n').map((line, idx) =>
                   line.trim() ? <li key={idx}>{line.trim()}</li> : null
                 )}
               </ul>
+
             </div>
 
             <div className="quantity-selector">

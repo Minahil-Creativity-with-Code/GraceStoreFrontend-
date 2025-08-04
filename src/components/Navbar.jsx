@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,19 +21,83 @@ const Navbar = () => {
 
       {/* Navbar Links */}
       <ul className={`nav-links ${menuOpen ? 'show' : ''}`}>
-        <li><Link to="/shop" className='nav-route'>Shop</Link></li>
-        <li><Link to="/summer" className='nav-route'>Summer Collection 2025 ▾</Link></li>
-        <li><Link to="/winter" className='nav-route'>Winter Collection 2025 ▾</Link></li>
-        <li><Link to="/gents" className='nav-route'>GENTS</Link></li>
-        <li><Link to="/party" className='nav-route'>PARTY WEARS</Link></li>
-        <li><Link to="/homedecor" className='nav-route'>Home Decor ▾</Link></li>
+        <li>
+          <NavLink
+            to="/shop"
+            className={({ isActive }) => isActive ? 'nav-route active' : 'nav-route'}
+          >
+            Shop
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/summer"
+            className={({ isActive }) => isActive ? 'nav-route active' : 'nav-route'}
+          >
+            Summer Collection  ▾
+          </NavLink>
+          <div className="dropdown">
+            <NavLink to="/lawn">Lawn</NavLink>
+            <NavLink to="/2-piece">2 Piece Lawn </NavLink>
+          </div>
+        </li>
+
+        <li>
+          <NavLink
+            to="/winter"
+            className={({ isActive }) => isActive ? 'nav-route active' : 'nav-route'}
+          >
+            Winter Collection  ▾
+          </NavLink>
+          <div className="dropdown">
+            <NavLink to="/linen">Linen</NavLink>
+            <NavLink to="/silk">Silk</NavLink>
+          </div>
+        </li>
+
+        <li>
+          <NavLink
+            to="/gents"
+            className={({ isActive }) => isActive ? 'nav-route active' : 'nav-route'}
+          >
+            GENTS
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/party"
+            className={({ isActive }) => isActive ? 'nav-route active' : 'nav-route'}
+          >
+            Party Wear ▾
+          </NavLink>
+          <div className="dropdown">
+            <NavLink to="/clutch-bag">Clutch Bag</NavLink>
+            <NavLink to="/silk">Silk</NavLink>
+            <NavLink to="/organza">Organza</NavLink>
+          </div>
+        </li>
+
+        <li>
+          <NavLink
+            to="/home-decor"
+            className={({ isActive }) => isActive ? 'nav-route active' : 'nav-route'}
+          >
+            Home Decor ▾
+          </NavLink>
+          <div className="dropdown">
+            <NavLink to="/bedding">Bedding</NavLink>
+            <NavLink to="/mattress-covers">Mattress Covers</NavLink>
+            <NavLink to="/sofa-covers">Sofa Covers</NavLink>
+            <NavLink to="/washing-machine-covers">Washing Machine Covers</NavLink>
+          </div>
+        </li>
       </ul>
 
       {/* Cart */}
       <div className="cart">
-        <Link to='/cart' className='nav-route'>
+        <NavLink to='/cart' className='nav-route'>
           CART / <span>Rs0</span> PKR <FaShoppingCart />
-        </Link>
+        </NavLink>
       </div>
     </div>
   );

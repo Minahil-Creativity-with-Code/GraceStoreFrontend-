@@ -131,6 +131,7 @@ const AddProduct = () => {
               <option value="Summer">Summer</option>
               <option value="Winter">Winter</option>
               <option value="Bedsheet">Bedsheet</option>
+              <option value="PartyWear">Party Wear</option>
             </select>
           </div>
 

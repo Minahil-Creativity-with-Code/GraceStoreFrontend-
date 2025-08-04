@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const SC = () => {
   const [products, setProducts] = useState([]);
+  const [sortOption, setSortOption] = useState('latest');
 
   useEffect(() => {
     // Fetch products from "Summer" category
@@ -18,14 +19,44 @@ const SC = () => {
     fetchProducts();
   }, []);
 
-  return (
-    <div className='sc'>
-      <h2 className="shop-title">Summer Collection 2025</h2>
-      <p className="breadcrumb">Home / <span>Summer Collection 2025</span></p>
+  const sortedProducts = [...products].sort((a, b) => {
+    switch (sortOption) {
+      case 'price-low':
+        return (a.prices?.medium || 0) - (b.prices?.medium || 0);
+      case 'price-high':
+        return (b.prices?.medium || 0) - (a.prices?.medium || 0);
+      case 'latest':
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      case 'popularity':
+        return (b.sold || 0) - (a.sold || 0);
+      default:
+        return 0;
+    }
+  });
 
+  return (
+    <div className="party-page">
+        <div className="party-header">
+          <div>
+            <h2>Summer Collection</h2>
+            <p className="breadcrumb">Home / Shop / Clothing / <span>Summer Collection</span></p>
+          </div>
+          <div className="sort-dropdown">
+            <span>Showing all {products.length} results</span>
+            <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+              <option value="latest">Sort by latest</option>
+              <option value="popularity">Sort by popularity</option>
+              <option value="price-low">Sort by price: low to high</option>
+              <option value="price-high">Sort by price: high to low</option>
+            </select>
+          </div>
+        </div>
+
+
+      {/* Product Grid */}
       <div className="card">
         <div className="product-list">
-          {products.map((product) => (
+          {sortedProducts.map((product) => (
             <div key={product._id} className="product-card">
               <img
                 src={`http://localhost:5000/images/${product.image}`}

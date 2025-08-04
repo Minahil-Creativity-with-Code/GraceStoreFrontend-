@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom';
 
 const allProducts = [
   { name: 'Bedsheets', price: '$180.00', image: '/B1.jpg' },
-  { name: 'Fashion Winter Dress', price: '$130.00 - $150.00', image: '/card1.jpg' },
-  { name: 'Party Wear', price: '$130.00 - $150.00', image: '/card4.jpg' },
-  { name: 'Fashion Summer Dress', price: '$140.00 - $160.00', image: '/Ad1.jpg' }
+  { name: 'Fashion Winter Dress', price: '$130.00 - $150.00', image: '/W1.jpg' },
+  { name: 'Party Wear', price: '$130.00 - $150.00', image: '/P1.jpg' },
+  { name: 'Fashion Summer Dress', price: '$140.00 - $160.00', image: '/F1.jpg' }
 ];
 
 const allTransactions = [

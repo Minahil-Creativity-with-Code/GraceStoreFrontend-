@@ -1,140 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import NavLine from "../components/NavLine";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+
 const HomeDecor = () => {
+    const [products, setProducts] = useState([]);
     const [sortOption, setSortOption] = useState('latest');
 
-    const products = [
-        {
-            id: 1,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 2,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: null,
-            discount: '29% Off',
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 3,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: null,
-            discount: '22% Off',
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 4,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: null,
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 5,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 6,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 7,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 8,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 9,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 10,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 11,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 12,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 13,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 14,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 15,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
-        },
-        {
-            id: 16,
-            name: '3 PCs King Size Cotton Mix Printed Bedsheet',
-            tag: 'Trending',
-            discount: null,
-            image: '/B1.jpg',
-            outOfStock: true
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/api/products/search/category/Home Decor");
+                setProducts(res.data);
+            } catch (error) {
+                console.error("Error fetching Home Decor products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    const sortedProducts = [...products].sort((a, b) => {
+        switch (sortOption) {
+            case 'price-low':
+                return a.price - b.price;
+            case 'price-high':
+                return b.price - a.price;
+            case 'latest':
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            case 'popularity':
+                return (b.sold || 0) - (a.sold || 0); // fallback if sold is missing
+            default:
+                return 0;
         }
-    ];
+    });
 
     return (
         <>
@@ -158,13 +58,16 @@ const HomeDecor = () => {
                 </div>
 
                 <div className="product-grid">
-                    {products.map((product) => (
-                        <div className="product-card" key={product.id}>
+                    {sortedProducts.map((product) => (
+                        <div className="product-card" key={product._id}>
                             <div className="product-img-container">
                                 {product.tag && <span className="tag trending">{product.tag}</span>}
                                 {product.discount && <span className="tag discount">{product.discount}</span>}
-                                <img src={product.image} alt={product.name} />
-                                {product.outOfStock && <div className="out-of-stock">OUT OF STOCK</div>}
+                                <img
+                                    src={`http://localhost:5000/images/${product.image}`}
+                                    alt={product.name}
+                                />
+                                {product.stockQuantity === 0 && <div className="out-of-stock">OUT OF STOCK</div>}
                             </div>
                             <h4>{product.name}</h4>
                         </div>

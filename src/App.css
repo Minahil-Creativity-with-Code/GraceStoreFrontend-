@@ -316,6 +316,22 @@ button.submit:hover {
 .nav-route:hover {
   color: #ff9100;
 }
+.nav-route {
+  color: white; /* default color */
+  text-decoration: none;
+  padding: 10px;
+}
+
+.nav-route.active {
+  color: #ff9100; /* active color */
+  border-bottom: 2px solid #ff9100; /* optional underline */
+}
+.features-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
 /* Cart */
 .cart {
   cursor: pointer;
