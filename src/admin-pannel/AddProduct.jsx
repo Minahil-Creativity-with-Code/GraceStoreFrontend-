@@ -16,7 +16,10 @@ const AddProduct = () => {
     color: '',
     size: '',
     productImage: null,
+    image: '', // For storing existing image filename
   });
+
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -29,11 +32,13 @@ const AddProduct = () => {
             category: product.category,
             price: product.prices?.medium || '',
             stock: product.stockQuantity,
-            brand: '', // Add if supported in schema
+            brand: '',
             color: '',
             size: '',
             productImage: null,
+            image: product.image || '', // Save existing image
           });
+          setSelectedCategory(product.category || '');
         })
         .catch(err => {
           console.error('❌ Error fetching product:', err);
@@ -46,49 +51,59 @@ const AddProduct = () => {
     const { name, value, type, files } = e.target;
     const val = type === 'file' ? files[0] : value;
     setProductData(prev => ({ ...prev, [name]: val }));
+
+    if (name === 'category') {
+      setSelectedCategory(value);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const payload = {
-  	name: productData.title,
-  	prices: {
-  	  small: parseFloat(productData.price) - 2,
-  	  medium: parseFloat(productData.price),
-  	  large: parseFloat(productData.price) + 2
-  	},
-  	stockQuantity: parseInt(productData.stock),
-  	category: productData.category,
-  	description: productData.description,
-  	image: "updated.jpg", // You can replace this dynamically if needed
-  	isCustomizable: true,
-  	CustomizationDescription: "Upload your design or add text"
-    };
-  
+
     try {
-  	if (id) {
-  	  // ✅ Edit mode – call update API
-  	  await axios.put(`http://localhost:5000/api/products/${id}`, payload, {
-  		headers: { 'Content-Type': 'application/json' },
-  	  });
-  	  alert('✅ Product updated successfully!');
-  	} else {
-  	  // ✅ Add mode
-  	  await axios.post('http://localhost:5000/api/products', payload, {
-  		headers: { 'Content-Type': 'application/json' },
-  	  });
-  	  alert('✅ Product added successfully!');
-  	}
-  
-  	navigate('/products');
-  
+      let imageName = '';
+
+      // Upload image if provided
+      if (productData.productImage) {
+        const formData = new FormData();
+        formData.append('productImage', productData.productImage);
+
+        const uploadRes = await axios.post('http://localhost:5000/api/products/upload', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        imageName = uploadRes.data.filename;
+      }
+
+      const payload = {
+        name: productData.title,
+        image: imageName || productData.image || 'default.jpg',
+        prices: {
+          small: parseFloat(productData.price) - 2,
+          medium: parseFloat(productData.price),
+          large: parseFloat(productData.price) + 2
+        },
+        stockQuantity: parseInt(productData.stock),
+        category: selectedCategory,
+        description: productData.description,
+        isCustomizable: true,
+        CustomizationDescription: "Upload your design or add text"
+      };
+
+      if (id) {
+        await axios.put(`http://localhost:5000/api/products/${id}`, payload);
+        alert('✅ Product updated successfully!');
+      } else {
+        await axios.post('http://localhost:5000/api/products', payload);
+        alert('✅ Product added successfully!');
+      }
+
+      navigate('/products');
     } catch (error) {
-  	console.error('❌ Error saving product:', error.response?.data || error.message);
-  	alert('Something went wrong.');
+      console.error('❌ Error saving product:', error.response?.data || error.message);
+      alert('Something went wrong.');
     }
   };
-
 
   return (
     <div className="signup-container">
@@ -96,7 +111,6 @@ const AddProduct = () => {
         <h2 className="title">{id ? 'Edit Product' : 'Add Product'}</h2>
 
         <form className="form" onSubmit={handleSubmit}>
-          {/* ... all inputs same as before ... */}
           <div className="grid">
             <input
               name="title"
@@ -106,14 +120,18 @@ const AddProduct = () => {
               onChange={handleChange}
               required
             />
-            <input
+            <select
               name="category"
-              type="text"
-              placeholder="Category"
-              value={productData.category}
+              value={selectedCategory}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="">All Categories</option>
+              <option value="Featured">Featured</option>
+              <option value="Summer">Summer</option>
+              <option value="Winter">Winter</option>
+              <option value="Bedsheet">Bedsheet</option>
+            </select>
           </div>
 
           <div className="grid">
@@ -180,6 +198,15 @@ const AddProduct = () => {
               accept="image/*"
               onChange={handleChange}
             />
+
+            {/* Show current image if editing and no new image is selected */}
+            {!productData.productImage && id && productData.image && (
+              <img
+                src={`http://localhost:5000/images/${productData.image}`}
+                alt="Current Product"
+                style={{ width: '150px', marginTop: '10px', borderRadius: '8px' }}
+              />
+            )}
           </div>
 
           <button type="submit" className="submit-btn">

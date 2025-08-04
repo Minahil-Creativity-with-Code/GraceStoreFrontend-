@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { AiOutlineProduct } from "react-icons/ai";
 import { MdSpaceDashboard, MdBorderColor } from "react-icons/md";
-import { FaPerson } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaRegUser } from "react-icons/fa";
+import { FaUserFriends} from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 const allProducts = [
@@ -57,7 +57,7 @@ const Dashboard = () => {
             <Link to='/dashboard' className="active"><MdSpaceDashboard /> Dashboard</Link>
             <Link to='/products'><AiOutlineProduct /> Products</Link>
             <Link to='/order'><MdBorderColor /> Orders</Link>
-            <Link to='/customer'><FaPerson /> Customers</Link>
+            <Link to='/customer'><FaUserFriends /> Customers</Link>
             <Link to='/user'><FaRegUser /> User</Link>
           </ul>
         </nav>
@@ -65,6 +65,15 @@ const Dashboard = () => {
           Customer Support<br />
           <Link to='/register'><button>Connect Now</button></Link>
         </div>
+        <div className="user-profile">
+          <img src="admin.jpg" alt="Admin" className="adminImage" />
+          <div className="user-details">
+           <div>Admin <br /><Link to='/userProfile' className='view'>View Profile</Link></div>
+          </div>
+        </div>
+         <br />
+        <Link to = '/'><button className="logout-button">Logout</button></Link>
+
       </aside>
 
       {/* Main Content */}
@@ -76,13 +85,6 @@ const Dashboard = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <div className="profile">
-            <img src="/PROFILE.jpg" alt="user" />
-            <Link to="/userprofile" className="user-route">
-              <span>Username</span>
-            </Link>
-            <small>Fashion Designer</small>
-          </div>
         </header>
 
         <section className="greeting">

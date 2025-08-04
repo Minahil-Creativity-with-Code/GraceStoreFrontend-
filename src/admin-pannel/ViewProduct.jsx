@@ -28,7 +28,7 @@ const ViewProduct = () => {
       <div className="view-product">
         {/* LEFT SIDE: Single Main Image */}
         <div className="main-image-only">
-          <img src={`/${product.image || 'placeholder.jpg'}`} alt="Product" />
+          <img src={`http://localhost:5000/images/${product.image || 'default.jpg'}`} alt={product.name} />
         </div>
 
         {/* RIGHT SIDE: Product Info */}

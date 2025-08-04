@@ -1,21 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ViewUser = () => {
-  const user = {
-    name: 'Minahil Asim',
-    email: 'minahil@example.com',
-    role: 'Admin',
-    status: 'Active',
-    image: '/User.jpg', // Place this image in public/images/
-    bio: 'Minahil is a senior admin managing the Grace store dashboard. She is responsible for overseeing product uploads, customer management, and order processing.'
-  };
+  const { id } = useParams();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/users/${id}`);
+        setUser(res.data);
+      } catch (err) {
+        console.error('Error fetching user:', err);
+      }
+    };
+
+    fetchUser();
+  }, [id]);
+
+  if (!user) return <p>Loading...</p>;
 
   return (
     <div className="view-user-wrapper">
       <div className="view-user">
+
         {/* LEFT SIDE: Profile Picture */}
         <div className="user-image">
-          <img src={user.image} alt="User Profile" />
+          <img
+            src={`http://localhost:5000/images/${user.image ? user.image : 'User.jpg'}`}
+            alt={user.name || 'User Profile'}
+            onError={(e) => { e.target.src = '/images/User.jpg'; }}
+          />
         </div>
 
         {/* RIGHT SIDE: User Details */}
@@ -25,6 +41,10 @@ const ViewUser = () => {
 
           <div className="user-info">
             <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Phone:</strong> {user.phone}</p>
+            <p><strong>Gender:</strong> {user.gender}</p>
+            <p><strong>Profession:</strong> {user.profession}</p>
+            <p><strong>Address:</strong> {user.address}</p>
             <p>
               <strong>Status:</strong>{' '}
               <span className={`status ${user.status === 'Active' ? 'active' : 'inactive'}`}>
@@ -33,10 +53,12 @@ const ViewUser = () => {
             </p>
           </div>
 
-          <div className="user-bio">
-            <h4>Bio</h4>
-            <p>{user.bio}</p>
-          </div>
+          {user.bio && (
+            <div className="user-bio">
+              <h4>Bio</h4>
+              <p>{user.bio}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

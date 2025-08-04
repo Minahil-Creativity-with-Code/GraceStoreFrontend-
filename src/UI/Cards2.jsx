@@ -1,58 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 const Card2 = () => {
-  const products = [
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/section01.jpg"
-    },
-    // {
-    //   brand: "LANDI GURATTA",
-    //   name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-102A",
-    //   originalPrice: "RB 9.499 PKR",
-    //   salePrice: "RB 2.999 PKR",
-    //   image: "\section02.jpg"
-    // },
-    {
-      brand: "BAROGUE LANDI",
-      name: "Baroque 3Pca Digital Print Summer Lawn Collection 2025 BQ-1251",
-      originalPrice: "RB 9.500 PKR",
-      salePrice: "RB 3.199 PKR",
-      image: "/section03.jpg"
-    },
-    {
-      brand: "DERSBOEDEED GURATTA",
-      name: "Asim Jota 3Pca Embroidered Summer Lawn Collection 2025 AJ-01",
-      originalPrice: "RB 4.999 PKR",
-      salePrice: "RB 3.999 PKR",
-      image: "/section04.jpg"
-    }
-  ];
+  const [summerProducts, setSummerProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/products/search/category/Summer")
+      .then((res) => {
+        setSummerProducts(res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching summer products:", err);
+      });
+  }, []);
 
   return (
     <div className="card2">
-        <h2> <IoIosArrowDown /> Shop Summer LAWN COLLECTION 2025</h2>
-    <div className="product-list">
-      {products.map((product, index) => (  //map for Loops over each product and renders
-        <div key={index} className="product-card">
-          <img src={product.image} alt={product.name} className="product-image" />  {/*img for Product image */}
-          <h3 className="product-brand">{product.brand}</h3>
-          <p className="product-name">{product.name}</p>
-          <div className="product-prices">
-            <span className="original-price">{product.originalPrice}</span>
-            <span className="sale-price">{product.salePrice}</span>
-          </div>
-        </div>
-      ))}
+      <h2><IoIosArrowDown /> Shop Summer Lawn Collection 2025</h2>
+
+      <Swiper
+        slidesPerView={4}
+        spaceBetween={30}
+        navigation={true}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 3000 }}
+        modules={[Navigation, Pagination, Autoplay]}
+        className="product-list"
+        breakpoints={{
+          320: { slidesPerView: 1 },
+          480: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+        }}
+      >
+        {summerProducts.map((product) => (
+          <SwiperSlide key={product._id}>
+            <Link to={`/product/${product._id}`} className="product-card-link login-route">
+              <div className="product-card">
+                <img
+                  src={`http://localhost:5000/images/${product.image}`}
+                  alt={product.name}
+                  className="product-image"
+                />
+                <h3 className="product-brand">{product.brand}</h3>
+                <p className="product-name">{product.name}</p>
+                <div className="product-prices">
+                  <span className="original-price">
+                    Rs {product.prices?.large || product.originalPrice || "-"} PKR
+                  </span>
+                  <span className="sale-price">
+                    Rs {product.prices?.medium || product.salePrice || "-"} PKR
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      <div className="section1">
+        <img src="/section2.jpg" alt="section-img" />
+      </div>
     </div>
-    <div className="section1">
-        <img src="\section2.jpg" alt="section-img"/>
-     </div>
- </div>
-     
   );
 };
 

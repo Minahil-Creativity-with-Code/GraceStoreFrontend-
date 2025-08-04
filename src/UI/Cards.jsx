@@ -1,54 +1,82 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { FaShoppingCart } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io"; // ✅ Added missing import
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+
 const Card = () => {
-  const products = [
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-102A",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card2.jpg"
-    },
-    {
-      brand: "DERSBOEDEED GURATTA",
-      name: "Asim Jota 3Pca Embroidered Summer Lawn Collection 2025 AJ-01",
-      originalPrice: "RB 4.999 PKR",
-      salePrice: "RB 3.999 PKR",
-      image: "/card4.jpg"
-    }
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/products/search/category/Featured"
+        );
+        setProducts(res.data);
+      } catch (err) {
+        console.error("❌ Failed to fetch featured products:", err);
+      }
+    };
+
+    fetchFeatured();
+  }, []);
 
   return (
-    <div className="card-header">
-      <h2> <FaShoppingCart />  What's New</h2>
-      <div className="product-list">
-        {products.map((product, index) => (  //map for Loops over each product and renders
-          <Link to={`/product/1`} key={index} className="product-card-link login-route"> {/* Static product ID for now */}
-            <div key={index} className="product-card">
-              <img src={product.image} alt={product.name} className="product-image" />   {/*img for Product image */}
-              <h3 className="product-brand">{product.brand}</h3>
-              <p className="product-name">{product.name}</p>
-              <div className="product-prices">
-                <span className="original-price">{product.originalPrice}</span>
-                <span className="sale-price">{product.salePrice}</span>
+    <div className="card2">
+      <h2>
+        <IoIosArrowDown /> Shop Featured Products 2025</h2>
+
+      <Swiper
+        slidesPerView={4}
+        spaceBetween={30}
+        navigation={true}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 3000 }}
+        modules={[Navigation, Pagination, Autoplay]} // ✅ Properly included all required modules
+        className="product-list"
+        breakpoints={{
+          320: { slidesPerView: 1 },
+          480: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+        }}
+      >
+        {products.map((product) => (
+          <SwiperSlide key={product._id}>
+            <Link to={`/product/${product._id}`} className="product-card-link login-route">
+              <div className="product-card">
+                <img
+                  src={`http://localhost:5000/images/${product.image}`}
+                  alt={product.name}
+                  className="product-image"
+                />
+                <h3 className="product-brand">{product.brand || "No Brand"}</h3>
+                <p className="product-name">{product.name}</p>
+                <div className="product-prices">
+                  <span className="original-price">
+                    Rs {product.prices?.large || product.originalPrice || "-"} PKR
+                  </span>
+                  <span className="sale-price">
+                    Rs {product.prices?.medium || product.salePrice || "-"} PKR
+                  </span>
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
+
       <div className="section1">
-        <img src="\section1.jpg" alt="section-img" />
+        <img src="/section1.jpg" alt="section-img" />
       </div>
     </div>
-
   );
 };
 

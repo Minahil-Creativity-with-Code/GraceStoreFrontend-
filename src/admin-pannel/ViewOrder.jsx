@@ -24,53 +24,41 @@ const ViewOrder = () => {
 
   return (
     <div className="view-product-wrapper">
-      <div className="view-product">
-        {/* LEFT SIDE: Order Visual/Placeholder */}
-        <div className="main-image-only">
-          <img
-            src="/order.png"
-            alt="Order"
-            style={{ maxWidth: '300px', objectFit: 'contain' }}
-          />
+      <div className="product-details">
+        <h2>Order #{order._id}</h2>
+
+        <div className="ratings">
+          <strong>Status:</strong> {order.status}
         </div>
 
-        {/* RIGHT SIDE: Order Info */}
-        <div className="product-details">
-          <h2>Order #{order._id}</h2>
+        <p className="price">
+          Total Amount: ${order.totalAmount}
+        </p>
 
-          <div className="ratings">
-            <strong>Status:</strong> {order.status}
-          </div>
+        <p className="stock">
+          <strong>Shipping:</strong>{' '}
+          {order.shippingAddress?.city || 'N/A'}, {order.shippingAddress?.street || ''}
+        </p>
 
-          <p className="price">
-            Total Amount: ${order.totalAmount}
-          </p>
+        <p className="short-desc">
+          <strong>Customer Name:</strong> {order.customerName || order.user?.name || 'N/A'}
+        </p>
 
-          <p className="stock">
-            <strong>Shipping:</strong>{' '}
-            {order.shippingAddress?.city || 'N/A'}, {order.shippingAddress?.street || ''}
-          </p>
-
-          <p className="short-desc">
-            <strong>Customer Name:</strong> {order.customerName || order.user?.name || 'N/A'}
-          </p>
-
-          <div className="expandable-description">
-            <h4>Order Items</h4>
-            {order.items && order.items.length > 0 ? (
-              order.items.map((item, index) => (
-                <div key={index} style={{ marginBottom: '10px' }}>
-                  <p><strong>Product:</strong> {item.productId?.name || 'Unknown Product'}</p>
-                  <p><strong>Category:</strong> {item.productId?.category || 'N/A'}</p>
-                  <p><strong>Quantity:</strong> {item.quantity}</p>
-                  <p><strong>Price:</strong> ${item.price}</p>
-                  <hr />
-                </div>
-              ))
-            ) : (
-              <p>No items found in this order.</p>
-            )}
-          </div>
+        <div className="expandable-description">
+          <h4>Order Items</h4>
+          {order.items && order.items.length > 0 ? (
+            order.items.map((item, index) => (
+              <div key={index} style={{ marginBottom: '10px' }}>
+                <p><strong>Product:</strong> {item.productId?.name || 'Unknown Product'}</p>
+                <p><strong>Category:</strong> {item.productId?.category || 'N/A'}</p>
+                <p><strong>Quantity:</strong> {item.quantity}</p>
+                <p><strong>Price:</strong> ${item.price}</p>
+                <hr />
+              </div>
+            ))
+          ) : (
+            <p>No items found in this order.</p>
+          )}
         </div>
       </div>
     </div>

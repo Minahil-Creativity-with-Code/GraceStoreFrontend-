@@ -1,122 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const SC = () => {
-  const products = [
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-102A",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card2.jpg"
-    },
-    {
-      brand: "BAROGUE LANDI",
-      name: "Baroque 3Pca Digital Print Summer Lawn Collection 2025 BQ-1251",
-      originalPrice: "RB 9.500 PKR",
-      salePrice: "RB 3.199 PKR",
-      image: "/card3.jpg"
-    },
-    {
-      brand: "DERSBOEDEED GURATTA",
-      name: "Asim Jota 3Pca Embroidered Summer Lawn Collection 2025 AJ-01",
-      originalPrice: "RB 4.999 PKR",
-      salePrice: "RB 3.999 PKR",
-      image: "/card4.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    {
-      brand: "LANDI GURATTA",
-      name: "Al Karami 3Pca Embroidered Summer Lawn Collection 2025 AK-09YA",
-      originalPrice: "RB 9.499 PKR",
-      salePrice: "RB 2.999 PKR",
-      image: "/card1.jpg"
-    },
-    
-    
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    // Fetch products from "Summer" category
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/products/search/category/Summer");
+        setProducts(res.data);
+      } catch (error) {
+        console.error("Failed to fetch Summer Collection products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <div className='sc'>
@@ -125,14 +25,18 @@ const SC = () => {
 
       <div className="card">
         <div className="product-list">
-          {products.map((product, index) => (
-            <div key={index} className="product-card">
-              <img src={product.image} alt={product.name} className="product-image" />
+          {products.map((product) => (
+            <div key={product._id} className="product-card">
+              <img
+                src={`http://localhost:5000/images/${product.image}`}
+                alt={product.name}
+                className="product-image"
+              />
               <h3 className="product-brand">{product.brand}</h3>
               <p className="product-name">{product.name}</p>
               <div className="product-prices">
-                <span className="original-price">{product.originalPrice}</span>
-                <span className="sale-price">{product.salePrice}</span>
+                <span className="original-price">Rs {product.prices?.large || '-'} PKR</span>
+                <span className="sale-price">Rs {product.prices?.medium || '-'} PKR</span>
               </div>
             </div>
           ))}

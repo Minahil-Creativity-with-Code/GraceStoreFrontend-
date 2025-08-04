@@ -1,7 +1,7 @@
 import React from 'react'
-import NavLine from '../components/NavLine';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import NavLine from "../components/NavLine";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Gents = () => {
   return (

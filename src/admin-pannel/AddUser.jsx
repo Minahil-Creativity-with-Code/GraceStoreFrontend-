@@ -16,6 +16,7 @@ const AddUser = ({ mode = 'signup' }) => {
     gender: 'male',
     address: '',
     phone: '',
+    image: '', // Added to hold existing image name
     profileImage: null,
   });
 
@@ -34,7 +35,8 @@ const AddUser = ({ mode = 'signup' }) => {
             gender: user.gender || 'male',
             address: user.address || '',
             phone: user.phone || '',
-            profileImage: null, // image will be uploaded again if changed
+            image: user.image || '', // Store existing image name
+            profileImage: null,
           });
         })
         .catch(err => {
@@ -59,9 +61,8 @@ const AddUser = ({ mode = 'signup' }) => {
     }
 
     const formPayload = new FormData();
-
     Object.entries(formData).forEach(([key, value]) => {
-      if (value) formPayload.append(key, value);
+      if (value && key !== 'image') formPayload.append(key, value);
     });
 
     try {
@@ -94,6 +95,7 @@ const AddUser = ({ mode = 'signup' }) => {
           gender: 'male',
           address: '',
           phone: '',
+          image: '',
           profileImage: null,
         });
       }
@@ -211,6 +213,15 @@ const AddUser = ({ mode = 'signup' }) => {
               accept="image/*"
               onChange={handleChange}
             />
+
+            {/* Show current image if editing and no new image is selected */}
+            {!formData.profileImage && id && formData.image && (
+              <img
+                src={`http://localhost:5000/images/${formData.image}`}
+                alt="Current User"
+                style={{ width: '150px', marginTop: '10px', borderRadius: '8px' }}
+              />
+            )}
           </div>
 
           {/* Submit */}

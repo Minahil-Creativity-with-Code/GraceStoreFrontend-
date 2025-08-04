@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Footer from '../components/Footer';
-import NavLine from '../components/NavLine';
-import Navbar from '../components/Navbar';
+import NavLine from "../components/NavLine";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const PartyWear = () => {
   const [sortOption, setSortOption] = useState('latest');

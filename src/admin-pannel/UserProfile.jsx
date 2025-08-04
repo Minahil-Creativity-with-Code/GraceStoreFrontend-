@@ -2,13 +2,13 @@ import React from 'react';
 
 const UserProfile = () => {
   const user = {
-    name: 'User',
+    name: 'Admin',
     role: 'Admin',
     profession: 'Fashion Designer',
     gender: 'Female',
-    email: 'user@example.com',
+    email: 'admin@example.com',
     address: 'Lahore, Pakistan',
-    image: '/User.jpg' // Make sure this exists in public folder
+    image: '/admin.jpg' // Make sure this exists in public folder
   };
 
   return (
