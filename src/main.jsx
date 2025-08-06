@@ -17,6 +17,7 @@ import CartEmpty from './UI/CartEmpty';
 import Login from './UI/Login';
 import Signup from './UI/Signup';
 import Error from './UI/Error';
+import Lawn from './pages/Lawn';
 
 // Admin Panel
 import AdminProductPanel from './admin-pannel/AdminProductPanel';
@@ -38,6 +39,10 @@ import ClutchBag from './UI/ClutchBag';
 import MattressCovers from './UI/MattressCovers';
 import SofaCovers from './UI/SofaCovers';
 import WashingMachineCovers from './UI/WashingMachineCovers';
+import EmbroideredDuppata from './pages/EmbroideredDuppata';
+import Silk from './pages/Silk';
+import Linen from './pages/Linen';
+import Organza from './pages/Organza';
 
 const router = createBrowserRouter([
   // Public Routes
@@ -59,7 +64,11 @@ const router = createBrowserRouter([
   { path: '/mattress-covers', element: <MattressCovers /> },
   { path: '/sofa-covers', element: <SofaCovers /> },
   { path: '/washing-machine-covers', element: <WashingMachineCovers /> },
-
+  { path: '/lawn', element: <Lawn /> },
+  { path: '/embroideredDuppata', element: <EmbroideredDuppata /> },
+  { path: '/linen', element: <Linen /> },
+  { path: '/silk', element: <Silk /> },
+  { path: '/organza', element: <Organza /> },
   // Admin Routes
   { path: '/admin', element: <AdminProductPanel /> },
   { path: '/customer', element: <Customer /> },

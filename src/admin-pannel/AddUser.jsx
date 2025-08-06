@@ -203,27 +203,6 @@ const AddUser = ({ mode = 'signup' }) => {
               onChange={handleChange}
             />
           </div>
-
-          {/* Profile Photo */}
-          <div className="upload-section">
-            <label>Profile Photo</label>
-            <input
-              type="file"
-              name="profileImage"
-              accept="image/*"
-              onChange={handleChange}
-            />
-
-            {/* Show current image if editing and no new image is selected */}
-            {!formData.profileImage && id && formData.image && (
-              <img
-                src={`http://localhost:5000/images/${formData.image}`}
-                alt="Current User"
-                style={{ width: '150px', marginTop: '10px', borderRadius: '8px' }}
-              />
-            )}
-          </div>
-
           {/* Submit */}
           <button type="submit" className="submit-btn">
             {isEditMode ? 'Save Changes' : 'Create Account'}

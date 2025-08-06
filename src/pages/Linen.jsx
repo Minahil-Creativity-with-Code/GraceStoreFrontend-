@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import NavLine from "../components/NavLine";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import axios from 'axios';
-
-const WC = () => {
+const Linen = () => {
   const [products, setProducts] = useState([]);
   const [sortOption, setSortOption] = useState('latest');
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products/search/category/Winter");
+        const res = await axios.get("http://localhost:5000/api/products/search/category/Linen");
         setProducts(res.data);
       } catch (error) {
-        console.error("Failed to fetch Summer Collection products:", error);
+        console.error("Failed to fetch Winter Collection products:", error);
       }
     };
 
@@ -34,11 +36,14 @@ const WC = () => {
   });
 
   return (
+    <>
+    <NavLine />
+    <Navbar />
     <div className="summer-page">
       <div className="summer-header">
         <div className="summer-title">
           <h2>Winter Collection 2025</h2>
-          <p className="summer-breadcrumb">Home / Shop / Clothing / <span>Winter Collection 2025</span></p>
+          <p className="summer-breadcrumb">Home / Shop / Clothing / <span>Linen</span></p>
         </div>
         <div className="summer-sort">
           <span>Showing 1–{products.length} of {products.length} results</span>
@@ -73,7 +78,9 @@ const WC = () => {
         ))}
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 
-export default WC;
+export default Linen;

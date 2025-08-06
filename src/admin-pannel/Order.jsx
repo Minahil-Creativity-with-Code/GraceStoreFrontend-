@@ -43,14 +43,22 @@ const AdminOrderPanel = () => {
 
   return (
     <div className="dashboard">
+            {/* Sidebar */}
       <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
         <h2>Admin Panel</h2>
         <nav>
           <ul>
-            <Link to='/dashboard'><MdSpaceDashboard /> Dashboard</Link>
-            <Link to='/products'><AiOutlineProduct /> Products</Link>
+            <Link to='/dashboard' ><MdSpaceDashboard /> Dashboard</Link>
+               <Link to='/products'  className="dropdown-product" ><AiOutlineProduct /> Products ▾
+              </Link>
+              <ul className="extend">
+                <li><Link to="/products">- All Products</Link></li>
+                <li><Link to="/addproduct">- Add Product</Link></li>
+                <li><Link to="/category">- Category</Link></li>
+                <li><Link to="/attribute">- Attribute</Link></li>
+              </ul>
             <Link to='/order' className="active"><MdBorderColor /> Orders</Link>
-           <Link to='/customer'><FaUserFriends /> Customers</Link>
+            <Link to='/customer'><FaUserFriends /> Customers</Link>
             <Link to='/user'><FaRegUser /> User</Link>
           </ul>
         </nav>
@@ -60,12 +68,14 @@ const AdminOrderPanel = () => {
         </div>
         <div className="user-profile">
           <img src="admin.jpg" alt="Admin" className="adminImage" />
-        <div>Admin <br /><Link to='/userProfile' className='view'>View Profile</Link></div>
+          <div className="user-details">
+            <div>Admin <br /><Link to='/userProfile' className='view'>View Profile</Link></div>
+          </div>
         </div>
         <br />
         <Link to='/'><button className="logout-button">Logout</button></Link>
-      </aside>
 
+      </aside>
       <main className="main-content">
         <div className="header">
           <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>

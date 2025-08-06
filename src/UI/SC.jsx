@@ -6,7 +6,6 @@ const SC = () => {
   const [sortOption, setSortOption] = useState('latest');
 
   useEffect(() => {
-    // Fetch products from "Summer" category
     const fetchProducts = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/products/search/category/Summer");
@@ -35,43 +34,43 @@ const SC = () => {
   });
 
   return (
-    <div className="party-page">
-        <div className="party-header">
-          <div>
-            <h2>Summer Collection</h2>
-            <p className="breadcrumb">Home / Shop / Clothing / <span>Summer Collection</span></p>
-          </div>
-          <div className="sort-dropdown">
-            <span>Showing all {products.length} results</span>
-            <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-              <option value="latest">Sort by latest</option>
-              <option value="popularity">Sort by popularity</option>
-              <option value="price-low">Sort by price: low to high</option>
-              <option value="price-high">Sort by price: high to low</option>
-            </select>
-          </div>
+    <div className="summer-page">
+      <div className="summer-header">
+        <div className="summer-title">
+          <h2>Summer Collection 2025</h2>
+          <p className="summer-breadcrumb">Home / Shop / Clothing / <span>Summer Lawn Collection 2025</span></p>
         </div>
+        <div className="summer-sort">
+          <span>Showing 1–{products.length} of {products.length} results</span>
+          <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+            <option value="latest">Sort by latest</option>
+            <option value="popularity">Sort by popularity</option>
+            <option value="price-low">Sort by price: low to high</option>
+            <option value="price-high">Sort by price: high to low</option>
+          </select>
+        </div>
+      </div>
 
+      <div className="summer-product-grid">
+        {sortedProducts.map((product) => (
+          <div key={product._id} className="summer-card">
+            {product.discount && (
+              <div className="summer-discount-badge">{product.discount}% Off</div>
+            )}
 
-      {/* Product Grid */}
-      <div className="card">
-        <div className="product-list">
-          {sortedProducts.map((product) => (
-            <div key={product._id} className="product-card">
-              <img
-                src={`http://localhost:5000/images/${product.image}`}
-                alt={product.name}
-                className="product-image"
-              />
-              <h3 className="product-brand">{product.brand}</h3>
-              <p className="product-name">{product.name}</p>
-              <div className="product-prices">
-                <span className="original-price">Rs {product.prices?.large || '-'} PKR</span>
-                <span className="sale-price">Rs {product.prices?.medium || '-'} PKR</span>
-              </div>
+            <img
+              src={`http://localhost:5000/images/${product.image}`}
+              alt={product.name}
+              className="summer-card-image"
+            />
+            <h3 className="summer-card-brand">{product.brand}</h3>
+            <p className="summer-card-name">{product.name}</p>
+            <div className="summer-card-prices">
+              <span className="summer-card-original">Rs{product.prices?.large || '-'}</span>
+              <span className="summer-card-sale">Rs{product.prices?.medium || '-'}</span>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );

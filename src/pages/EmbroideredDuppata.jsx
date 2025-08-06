@@ -4,17 +4,17 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from 'axios';
 
-const Clothing = () => {
-  const [sortOption, setSortOption] = useState('latest');
+const EmbroideredDuppata= () => {
   const [products, setProducts] = useState([]);
+  const [sortOption, setSortOption] = useState('latest');
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products/search/category/Clothing");
+        const res = await axios.get("http://localhost:5000/api/products/search/category/EmbroideredDuppata");
         setProducts(res.data);
       } catch (error) {
-        console.error("Failed to fetch Clothing products:", error);
+        console.error("Failed to fetch Embroidered Duppata products:", error);
       }
     };
 
@@ -43,11 +43,11 @@ const Clothing = () => {
       <div className="textile-wrapper">
         <div className="textile-header">
           <div className="textile-info">
-            <h2>Clothing</h2>
-            <p className="breadcrumb">Home / Shop / <span>Clothing</span></p>
+            <h2>Embroidered Duppata</h2>
+            <p className="breadcrumb">Home / Shop / <span>Embroidered Duppata</span></p>
           </div>
           <div className="summer-sort">
-            <span>Showing 1–{sortedProducts.length} of {sortedProducts.length} results</span>
+            <span>Showing 1–{products.length} of {products.length} results</span>
             <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
               <option value="latest">Sort by latest</option>
               <option value="popularity">Sort by popularity</option>
@@ -59,14 +59,23 @@ const Clothing = () => {
 
         <div className="textile-grid">
           {sortedProducts.map((product) => (
-            <div className="textile-card" key={product.id}>
+            <div key={product._id} className="textile-card">
               <div className="textile-image-wrapper">
                 {product.tag && <span className="badge tag">{product.tag}</span>}
-                {product.discount && <span className="badge discount">{product.discount}</span>}
-                <img src={product.image} alt={product.name} />
-                {product.outOfStock && <div className="badge stock-status">OUT OF STOCK</div>}
+                {product.discount && <span className="badge discount">{product.discount}% Off</span>}
+                <img
+                  src={`http://localhost:5000/images/${product.image}`}
+                  alt={product.name}
+                />
+                {product.outOfStock && (
+                  <div className="badge stock-status">OUT OF STOCK</div>
+                )}
               </div>
               <h4>{product.name}</h4>
+              <div className="textile-price">
+                <span className="original-price">Rs {product.prices?.large || '-'}</span>
+                <span className="sale-price">Rs {product.prices?.medium || '-'}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -76,4 +85,4 @@ const Clothing = () => {
   );
 };
 
-export default Clothing;
+export default EmbroideredDuppata;

@@ -13,9 +13,8 @@ const PartyWear = () => {
       try {
         const res = await axios.get("http://localhost:5000/api/products/search/category/PartyWear");
         setProducts(res.data);
-
       } catch (error) {
-        console.error("Failed to fetch Party Wear products:", error);
+        console.error("Failed to fetch Party Wear Collection products:", error);
       }
     };
 
@@ -25,9 +24,9 @@ const PartyWear = () => {
   const sortedProducts = [...products].sort((a, b) => {
     switch (sortOption) {
       case 'price-low':
-        return (a.price || 0) - (b.price || 0);
+        return (a.prices?.medium || 0) - (b.prices?.medium || 0);
       case 'price-high':
-        return (b.price || 0) - (a.price || 0);
+        return (b.prices?.medium || 0) - (a.prices?.medium || 0);
       case 'latest':
         return new Date(b.createdAt) - new Date(a.createdAt);
       case 'popularity':
@@ -41,14 +40,18 @@ const PartyWear = () => {
     <>
       <NavLine />
       <Navbar />
-      <div className="party-page">
-        <div className="party-header">
-          <div>
-            <h2>Party Wear</h2>
-            <p className="breadcrumb">Home / Shop / Clothing / <span>Party Wear</span></p>
+      <div className="summer-page">
+        <div className="summer-header">
+          <div className="summer-title">
+            <h2>Party Wear Collection 2025</h2>
+            <p className="summer-breadcrumb">
+              Home / Shop / Clothing / <span>Party Wear Collection 2025</span>
+            </p>
           </div>
-          <div className="sort-dropdown">
-            <span>Showing all {products.length} results</span>
+          <div className="summer-sort">
+            <span>
+              Showing 1–{products.length} of {products.length} results
+            </span>
             <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
               <option value="latest">Sort by latest</option>
               <option value="popularity">Sort by popularity</option>
@@ -58,21 +61,23 @@ const PartyWear = () => {
           </div>
         </div>
 
-        <div className="product-grid">
+        <div className="summer-product-grid">
           {sortedProducts.map((product) => (
-            <div className="product-card" key={product._id}>
-              <div className="product-img-container">
-                {product.tag && <span className="tag trending">{product.tag}</span>}
-                {product.discount && <span className="tag discount">{product.discount}</span>}
-                <img
-                  src={`http://localhost:5000/images/${product.image}`}
-                  alt={product.name}
-                />
-                {product.stockQuantity === 0 && (
-                  <div className="out-of-stock">OUT OF STOCK</div>
-                )}
+            <div key={product._id} className="summer-card">
+              {product.discount && (
+                <div className="summer-discount-badge">{product.discount}% Off</div>
+              )}
+              <img
+                src={`http://localhost:5000/images/${product.image}`}
+                alt={product.name}
+                className="summer-card-image"
+              />
+              <h3 className="summer-card-brand">{product.brand}</h3>
+              <p className="summer-card-name">{product.name}</p>
+              <div className="summer-card-prices">
+                <span className="summer-card-original">Rs {product.prices?.large || '-'}</span>
+                <span className="summer-card-sale">Rs {product.prices?.medium || '-'}</span>
               </div>
-              <h4>{product.name}</h4>
             </div>
           ))}
         </div>

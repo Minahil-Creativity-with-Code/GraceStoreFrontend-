@@ -130,8 +130,18 @@ const AddProduct = () => {
               <option value="Featured">Featured</option>
               <option value="Summer">Summer</option>
               <option value="Winter">Winter</option>
-              <option value="Bedsheet">Bedsheet</option>
+              <option value="Bedsheet">Home Decor</option>
               <option value="PartyWear">Party Wear</option>
+              <option value="PartyWear">Bedding</option>
+              <option value="WashingMachineCovers">Washing Machine Covers</option>
+              <option value="SofaCovers">Sofa Covers</option>
+              <option value="MattressCovers">Mattress Covers</option>
+              <option value="Organza">Organza</option>
+              <option value="Silk">Silk</option>
+              <option value="ClutchBag">Clutch Bag</option>
+              <option value="Linen">Linen</option>
+              <option value="TwoPieceLawn">2 Piece Lawn</option>
+              <option value="Lawn">Lawn</option>
             </select>
           </div>
 

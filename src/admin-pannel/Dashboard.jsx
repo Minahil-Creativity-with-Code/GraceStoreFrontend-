@@ -3,7 +3,7 @@ import { AiOutlineProduct } from "react-icons/ai";
 import { MdSpaceDashboard, MdBorderColor } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaRegUser } from "react-icons/fa";
-import { FaUserFriends} from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 const allProducts = [
@@ -55,7 +55,14 @@ const Dashboard = () => {
         <nav>
           <ul>
             <Link to='/dashboard' className="active"><MdSpaceDashboard /> Dashboard</Link>
-            <Link to='/products'><AiOutlineProduct /> Products</Link>
+               <Link to='/products'  className="dropdown-product" ><AiOutlineProduct /> Products ▾
+              </Link>
+              <ul className="extend">
+                <li><Link to="/products">- All Products</Link></li>
+                <li><Link to="/addproduct">- Add Product</Link></li>
+                <li><Link to="/category">- Category</Link></li>
+                <li><Link to="/attribute">- Attribute</Link></li>
+              </ul>
             <Link to='/order'><MdBorderColor /> Orders</Link>
             <Link to='/customer'><FaUserFriends /> Customers</Link>
             <Link to='/user'><FaRegUser /> User</Link>
@@ -68,11 +75,11 @@ const Dashboard = () => {
         <div className="user-profile">
           <img src="admin.jpg" alt="Admin" className="adminImage" />
           <div className="user-details">
-           <div>Admin <br /><Link to='/userProfile' className='view'>View Profile</Link></div>
+            <div>Admin <br /><Link to='/userProfile' className='view'>View Profile</Link></div>
           </div>
         </div>
-         <br />
-        <Link to = '/'><button className="logout-button">Logout</button></Link>
+        <br />
+        <Link to='/'><button className="logout-button">Logout</button></Link>
 
       </aside>
 

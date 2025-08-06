@@ -49,12 +49,20 @@ const User = () => {
 
   return (
     <div className="dashboard">
+           {/* Sidebar */}
       <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
         <h2>Admin Panel</h2>
         <nav>
           <ul>
-            <Link to='/dashboard'><MdSpaceDashboard /> Dashboard</Link>
-            <Link to='/products'><AiOutlineProduct /> Products</Link>
+            <Link to='/dashboard' ><MdSpaceDashboard /> Dashboard</Link>
+               <Link to='/products'  className="dropdown-product" ><AiOutlineProduct /> Products ▾
+              </Link>
+              <ul className="extend">
+                <li><Link to="/products">- All Products</Link></li>
+                <li><Link to="/addproduct">- Add Product</Link></li>
+                <li><Link to="/category">- Category</Link></li>
+                <li><Link to="/attribute">- Attribute</Link></li>
+              </ul>
             <Link to='/order'><MdBorderColor /> Orders</Link>
             <Link to='/customer'><FaUserFriends /> Customers</Link>
             <Link to='/user' className="active"><FaRegUser /> User</Link>
@@ -72,6 +80,7 @@ const User = () => {
         </div>
         <br />
         <Link to='/'><button className="logout-button">Logout</button></Link>
+
       </aside>
 
       <main className="main-content">

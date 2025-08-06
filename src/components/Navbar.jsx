@@ -38,7 +38,7 @@ const Navbar = () => {
           </NavLink>
           <div className="dropdown">
             <NavLink to="/lawn">Lawn</NavLink>
-            <NavLink to="/2-piece">2 Piece Lawn </NavLink>
+            <NavLink to="/embroideredDuppata">Embroidered Duppata</NavLink>
           </div>
         </li>
 
